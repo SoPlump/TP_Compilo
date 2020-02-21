@@ -1,0 +1,30 @@
+/*** Etat EY ******/
+
+bool EY::transition(Automate & automate,Symbole* s)
+{
+    switch(*s)
+    {
+    case EXPR:
+        automate.decalage(s,new E0());
+        break;
+    case OPENPAR:
+        automate.decalage(s,new E0());
+        break;
+    default:
+        cerr << "erreur" << endl;
+        break;
+    }
+    return false;
+}
+
+
+
+/***** Etat EX *****/
+
+class EX: public Etat{
+public:
+    EX():Etat() {}
+    ~EX(){}
+    void print() const;
+    bool transition(Automate & automate,Symbole* s);
+};
