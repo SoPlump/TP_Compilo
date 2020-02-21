@@ -2,12 +2,13 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 
 using namespace std;
 
 enum Identificateurs { OPENPAR, CLOSEPAR, PLUS, MULT, INT, FIN, ERREUR, EXPR };
 
-const string Etiquettes[] = { "OPENPAR", "CLOSEPAR", "PLUS", "MULT", "INT", "FIN", "ERREUR" };
+const string Etiquettes[] = { "OPENPAR", "CLOSEPAR", "PLUS", "MULT", "INT", "FIN", "ERREUR" , "EXPR"};
 
 class Symbole {
 public:
@@ -16,10 +17,12 @@ public:
     operator int() const { return ident; }
     bool isTerminal(){ return terminal; }
     virtual void Affiche();
-
+    friend ostream& operator<<(ostream &out,Symbole s);
 protected:
     int ident;
     bool terminal;
+
+
 };
 
 class Expr : public Symbole {

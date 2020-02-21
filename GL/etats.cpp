@@ -22,6 +22,8 @@ bool E0::transition(Automate & automate,Symbole* s)
         automate.decalage(s, new E1());
     default:
         cerr << "erreur" << endl;
+        cerr << "Symbole recu: ";
+        s->Affiche();
         break;
     }
     return false;
@@ -43,8 +45,9 @@ bool E1::transition(Automate & automate,Symbole* s)
     case FIN:
         cout << "ACCEPTER" << endl;
         return true;
+        break;
     default:
-        cerr << "erreur" << endl;
+        cerr << "  erreur" << endl;
         break;
     }
     return false;

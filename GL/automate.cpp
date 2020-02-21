@@ -7,14 +7,53 @@
 using namespace std;
 
 
+
+/**********/
+// C++ program to print the elements of a
+// stack from bottom to top
+#include <bits/stdc++.h>
+using namespace std;
+
+// Recursive function to print stack elements
+// from bottom to top without changing
+// their order
+void PrintStack(stack<Symbole *> s)
+{
+        // If stack is empty then return
+        if (s.empty())
+                return;
+
+
+        Symbole * x = s.top();
+
+        // Pop the top element of the stack
+        s.pop();
+
+        // Recursively call the function PrintStack
+        PrintStack(s);
+
+        // Print the stack element starting
+        // from the bottom
+        cout << *x << " ";
+
+        // Push the same element onto the stack
+        // to preserve the order
+        s.push(x);
+}
+
+
+/*******/
+
 Automate::Automate(Etat * e, Lexer * l){
     stateStack.push(e);
     lexer = l;
-    accepter = false;
-    while(){
-
+     bool accepter = false;
+    while(!accepter){
+        accepter = stateStack.top()->transition(*this,lexer->Consulter());
+        PrintStack(symbolStack);
+        cout <<  endl;
     }
-    e->transition(*this,lexer->Consulter());
+    cout << "Arbre fini !" <<  endl;
 }
 
 void Automate::deleteTop(int n){
@@ -38,7 +77,6 @@ void Automate::decalage(Symbole* s, Etat* e)
 
         lexer->Avancer();
     }
-    e->transition(*this,lexer->Consulter());
 }
 
 void Automate::reduction(int n) {
@@ -77,7 +115,7 @@ void Automate::reduction(int n) {
 
     Symbole *s = new Expr(valeur);
     clog << "Valeur de E:" << valeur << endl;
-    stateStack.top()->print();
+    cout <<  endl;
     stateStack.top()->transition(*this,s);
 }
 
