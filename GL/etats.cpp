@@ -23,6 +23,7 @@ bool E0::transition(Automate & automate,Symbole* s)
         automate.decalage(s, new E1());
         break;
     default:
+        automate.setReussi(false);
         cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
         cerr << "Symbole attendu: entier,( ou une expression" << endl;
         return true;
@@ -47,6 +48,7 @@ bool E1::transition(Automate & automate,Symbole* s)
         return true;
         break;
     default:
+      automate.setReussi(false);
       cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
       cerr << "Symbole attendu: +,* ou fin" << endl;
       return true;
@@ -70,6 +72,7 @@ bool E2::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E6());
         break;
     default:
+      automate.setReussi(false);
       cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
       cerr << "Symbole attendu: entier,( ou expression" << endl;
       return true;
@@ -96,6 +99,7 @@ bool E3::transition(Automate & automate,Symbole* s)
         automate.reduction(1);
         break;
     default:
+        automate.setReussi(false);
         cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
         cerr << "Symbole attendu: +,*,) ou fin" << endl;
         return true;
@@ -119,6 +123,7 @@ bool E4::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E7());
         break;
     default:
+      automate.setReussi(false);
     cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
     cerr << "Symbole attendu: entier,( ou expression" << endl;
       return true;
@@ -142,6 +147,7 @@ bool E5::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E8());
         break;
     default:
+      automate.setReussi(false);
       cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
       cerr << "Symbole attendu: entier,( ou expression" << endl;
       return true;
@@ -166,6 +172,7 @@ bool E6::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E9());
         break;
     default:
+      automate.setReussi(false);
     cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
     cerr << "Symbole attendu: +,* ou )" << endl;
         return true;
@@ -192,6 +199,7 @@ bool E7::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
+      automate.setReussi(false);
         cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
         cerr << "Symbole attendu: +,*,) ou fin" << endl;
         return true;
@@ -218,6 +226,7 @@ bool E8::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
+      automate.setReussi(false);
         cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
         cerr << "Symbole attendu: +,*,) ou fin" << endl;
         return true;
@@ -243,6 +252,7 @@ bool E9::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
+      automate.setReussi(false);
         cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
         cerr << "Symbole attendu: +,*,) ou fin" << endl;
         return true;

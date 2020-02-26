@@ -19,10 +19,10 @@ private:
     void deleteTop(int n);
 public:
     Automate(Etat * e, Lexer * l);
+    bool start();
     void decalage(Symbole*s, Etat*e);
     void reduction(int n);
     void setReussi(bool r) { reussi=r; }
+    int getResult() { return resultat; }
     void afficheArbre();
-
-
 };

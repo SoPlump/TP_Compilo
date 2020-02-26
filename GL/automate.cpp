@@ -42,18 +42,20 @@ void PrintStack(stack<Symbole *> s)
         s.push(x);
 }
 
-Automate::Automate(Etat * e, Lexer * l){
+Automate::Automate(Etat * e, Lexer * l) {
     stateStack.push(e);
     lexer = l;
-     bool accepter = false;
+}
+
+bool Automate::start() {     
+    bool accepter = false;
     while(!accepter){
         accepter = stateStack.top()->transition(*this,lexer->Consulter());
     }
-    if(reussi){
-      cout << "Arbre fini !" <<  endl;
-      cout << "Resultat: " << ((Expr*)symbolStack.top())->eval() << endl;
+    if (reussi) {
+        resultat = ((Expr*)symbolStack.top())->eval();
     }
-
+    return reussi;
 }
 
 void Automate::deleteTop(int n){

@@ -21,6 +21,10 @@ int main(void) {
      Automate a = Automate(e0,&l);
 
 
+    if(a.start()){
+      cout << "Arbre fini !" <<  endl;
+      cout << "Resultat: " << a.getResult() << endl;
+    
      cout << "Voulez vous afficher l'arbre (o/n) ?" << endl;
 
      cin >> chaine;
@@ -31,6 +35,9 @@ int main(void) {
      if(chaine.compare("o")==0){
        a.afficheArbre();
      }
+   }
+
+
      cout << "Entrez une expression (tapez q pour quitter):" << endl;
 
      cin >> chaine;
