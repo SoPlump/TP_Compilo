@@ -24,7 +24,7 @@ bool E0::transition(Automate & automate,Symbole* s)
         break;
     default:
         automate.setReussi(false);
-        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Erreur - Symbole inattendu : " << s->getName() << endl;
         cerr << "Symbole attendu: entier,( ou une expression" << endl;
         return true;
     }
