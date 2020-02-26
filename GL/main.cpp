@@ -3,19 +3,39 @@
 #include "etats.h"
 #include "automate.h"
 
+
 int main(void) {
-   string chaine("(1+34)*123");
+  cout << "Tapez q pour quitter" << endl;
+  string chaine="";
+  cout << "Entrez une expression (tapez q pour quitter):" << endl;
 
-   Lexer l(chaine);
+  cin >> chaine;
 
-   //Symbole * s;
-   Etat * e0 = new E0();
-   Automate(e0,&l);
-   /*while(*(s=l.Consulter())!=FIN) {
-      s->Affiche();
-      cout<<endl;
-      l.Avancer();
-   }*/
+
+  while(chaine.compare("q")!=0){
+
+
+     Lexer l(chaine);
+
+     Etat * e0 = new E0();
+     Automate a = Automate(e0,&l);
+
+
+     cout << "Voulez vous afficher l'arbre (o/n) ?" << endl;
+
+     cin >> chaine;
+     while(chaine.compare("o")!=0&&chaine.compare("n")!=0){
+        cout << "???" << endl;
+        cin >> chaine;
+     }
+     if(chaine.compare("o")==0){
+       a.afficheArbre();
+     }
+     cout << "Entrez une expression (tapez q pour quitter):" << endl;
+
+     cin >> chaine;
+
+  }
+
    return 0;
 }
-

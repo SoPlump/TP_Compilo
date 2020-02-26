@@ -11,6 +11,7 @@ using namespace std;
 /**********/
 // C++ program to print the elements of a
 // stack from bottom to top
+// Copied from StackOverflow
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -41,24 +42,22 @@ void PrintStack(stack<Symbole *> s)
         s.push(x);
 }
 
-
-/*******/
-
 Automate::Automate(Etat * e, Lexer * l){
     stateStack.push(e);
     lexer = l;
      bool accepter = false;
     while(!accepter){
         accepter = stateStack.top()->transition(*this,lexer->Consulter());
-        PrintStack(symbolStack);
-        cout <<  endl;
     }
-    cout << "Arbre fini !" <<  endl;
+    if(reussi){
+      cout << "Arbre fini !" <<  endl;
+      cout << "Resultat: " << ((Expr*)symbolStack.top())->eval() << endl;
+    }
+
 }
 
 void Automate::deleteTop(int n){
     for(int i=0;i<n;i++){
-        delete(symbolStack.top());
         symbolStack.pop();
         delete(stateStack.top());
         stateStack.pop();
@@ -68,8 +67,9 @@ void Automate::deleteTop(int n){
 
 void Automate::decalage(Symbole* s, Etat* e)
 {
-    cout << "Décalage vers ";
-    e->print();
+    //cout << "Décalage vers ";
+    //e->print();
+  //  clog << "Decalage vers " << e->getName() <<  "avec le Symbole  " << *s  << endl;
     symbolStack.push(s);
     stateStack.push(e);
     if(s->isTerminal())
@@ -78,44 +78,46 @@ void Automate::decalage(Symbole* s, Etat* e)
         lexer->Avancer();
     }
 }
+void Automate::afficheArbre(){
+  ((Expr*)symbolStack.top())->AfficheArbre(0);
+}
 
 void Automate::reduction(int n) {
 
-    int valeur = 0;
-
+    Expr *s;
     Etat * e = stateStack.top();
     if(e->getName().compare("E3")==0){
-        valeur = ((Entier *)symbolStack.top())->getValeur();
+        Entier *a = (Entier *)symbolStack.top();
+        s = new IntExpr(a);
         deleteTop(1);
     }
     if(e->getName().compare("E7")==0){
-        int valeur1 = ((Expr *)symbolStack.top())->getValeur();
+
+        Expr * a = (Expr *)symbolStack.top();
         deleteTop(2);
-        int valeur2 = ((Expr *)symbolStack.top())->getValeur();
+        Expr * b = (Expr *)symbolStack.top();
         deleteTop(1);
-        valeur = valeur1+valeur2;
+        s = new AddExpr(a,b);
     }
     if(e->getName().compare("E8")==0){
-        int valeur1 = ((Expr *)symbolStack.top())->getValeur();
+        Expr * a = (Expr *)symbolStack.top();
         deleteTop(2);
-        int valeur2 = ((Expr *)symbolStack.top())->getValeur();
+        Expr * b = (Expr *)symbolStack.top();
         deleteTop(1);
-        valeur = valeur1*valeur2;
+        s = new MultExpr(a,b);
     }
     // Si on vient de l'état 9 -> Réduction par la règle 3
     if(e->getName().compare("E9")==0){
         // On enlève la parenthèse fermante
         deleteTop(1);
         // On récupère la valeur
-        valeur = ((Expr *)symbolStack.top())->getValeur();
+        s = new ParExpr((Expr *)symbolStack.top());
         deleteTop(1);
         // On enlève la parenthèse ouvrante
         deleteTop(1);
     }
-
-    Symbole *s = new Expr(valeur);
-    clog << "Valeur de E:" << valeur << endl;
-    cout <<  endl;
+    //@TODO Implement tree
+    //Symbole *s = new Expr(EXPR,valeur);
+    //clog << "Réduction depuis " << stateStack.top()->getName() <<  "- Symbole  " << *s  << endl;
     stateStack.top()->transition(*this,s);
 }
-

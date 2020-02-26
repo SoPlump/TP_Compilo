@@ -10,6 +10,7 @@ using namespace std;
 //OPENPAR, CLOSEPAR, PLUS, MULT, INT, FIN, ERREUR, EXPR
 bool E0::transition(Automate & automate,Symbole* s)
 {
+
     switch(*s)
     {
     case INT:
@@ -18,13 +19,13 @@ bool E0::transition(Automate & automate,Symbole* s)
     case OPENPAR:
         automate.decalage(s,new E2());
         break;
-    case EXPR:
+    case EXPR: case ADDEXPR: case MULTEXPR: case PAREXPR: case INTEXPR:
         automate.decalage(s, new E1());
-    default:
-        cerr << "erreur" << endl;
-        cerr << "Symbole recu: ";
-        s->Affiche();
         break;
+    default:
+        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Symbole attendu: entier,( ou une expression" << endl;
+        return true;
     }
     return false;
 }
@@ -43,12 +44,12 @@ bool E1::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E5());
         break;
     case FIN:
-        cout << "ACCEPTER" << endl;
         return true;
         break;
     default:
-        cerr << "  erreur" << endl;
-        break;
+      cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+      cerr << "Symbole attendu: +,* ou fin" << endl;
+      return true;
     }
     return false;
 }
@@ -65,12 +66,13 @@ bool E2::transition(Automate & automate,Symbole* s)
     case OPENPAR:
         automate.decalage(s,new E2());
         break;
-    case EXPR:
+    case EXPR: case ADDEXPR: case MULTEXPR: case PAREXPR: case INTEXPR:
         automate.decalage(s,new E6());
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+      cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+      cerr << "Symbole attendu: entier,( ou expression" << endl;
+      return true;
     }
     return false;
 }
@@ -94,8 +96,9 @@ bool E3::transition(Automate & automate,Symbole* s)
         automate.reduction(1);
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Symbole attendu: +,*,) ou fin" << endl;
+        return true;
     }
     return false;
 }
@@ -112,12 +115,13 @@ bool E4::transition(Automate & automate,Symbole* s)
     case OPENPAR:
         automate.decalage(s,new E2());
         break;
-    case EXPR:
+    case EXPR: case ADDEXPR: case MULTEXPR: case PAREXPR: case INTEXPR:
         automate.decalage(s,new E7());
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+    cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+    cerr << "Symbole attendu: entier,( ou expression" << endl;
+      return true;
     }
     return false;
 }
@@ -134,12 +138,13 @@ bool E5::transition(Automate & automate,Symbole* s)
     case OPENPAR:
         automate.decalage(s,new E2());
         break;
-    case EXPR:
+    case EXPR: case ADDEXPR: case MULTEXPR: case PAREXPR: case INTEXPR:
         automate.decalage(s,new E8());
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+      cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+      cerr << "Symbole attendu: entier,( ou expression" << endl;
+      return true;
     }
     return false;
 }
@@ -161,8 +166,9 @@ bool E6::transition(Automate & automate,Symbole* s)
         automate.decalage(s,new E9());
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+    cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+    cerr << "Symbole attendu: +,* ou )" << endl;
+        return true;
     }
     return false;
 }
@@ -186,8 +192,9 @@ bool E7::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Symbole attendu: +,*,) ou fin" << endl;
+        return true;
     }
     return false;
 }
@@ -211,8 +218,9 @@ bool E8::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Symbole attendu: +,*,) ou fin" << endl;
+        return true;
     }
     return false;
 }
@@ -235,8 +243,9 @@ bool E9::transition(Automate & automate,Symbole* s)
         automate.reduction(3);
         break;
     default:
-        cerr << "erreur" << endl;
-        break;
+        cerr << "Erreur - Symbole inattendu" << s->getName() << endl;
+        cerr << "Symbole attendu: +,*,) ou fin" << endl;
+        return true;
     }
     return false;
 }
