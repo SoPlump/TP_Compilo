@@ -42,12 +42,12 @@ void PrintStack(stack<Symbole *> s)
         s.push(x);
 }
 
-Automate::Automate(Etat * e, Lexer * l) {
+Automate::Automate(State * e, Lexer * l) {
     stateStack.push(e);
     lexer = l;
 }
 
-bool Automate::start() {     
+bool Automate::start() {
     bool accepter = false;
     while(!accepter){
         accepter = stateStack.top()->transition(*this,lexer->Consulter());
@@ -67,7 +67,7 @@ void Automate::deleteTop(int n){
 }
 
 
-void Automate::decalage(Symbole* s, Etat* e)
+void Automate::decalage(Symbole* s, State* e)
 {
     //cout << "Décalage vers ";
     //e->print();
@@ -87,13 +87,13 @@ void Automate::afficheArbre(){
 void Automate::reduction(int n) {
 
     Expr *s;
-    Etat * e = stateStack.top();
-    if(e->getName().compare("E3")==0){
+    State * e = stateStack.top();
+    if(e->getName().compare("S3")==0){
         Entier *a = (Entier *)symbolStack.top();
         s = new IntExpr(a);
         deleteTop(1);
     }
-    if(e->getName().compare("E7")==0){
+    if(e->getName().compare("S7")==0){
 
         Expr * a = (Expr *)symbolStack.top();
         deleteTop(2);
@@ -101,7 +101,7 @@ void Automate::reduction(int n) {
         deleteTop(1);
         s = new AddExpr(a,b);
     }
-    if(e->getName().compare("E8")==0){
+    if(e->getName().compare("S8")==0){
         Expr * a = (Expr *)symbolStack.top();
         deleteTop(2);
         Expr * b = (Expr *)symbolStack.top();
@@ -109,7 +109,7 @@ void Automate::reduction(int n) {
         s = new MultExpr(a,b);
     }
     // Si on vient de l'état 9 -> Réduction par la règle 3
-    if(e->getName().compare("E9")==0){
+    if(e->getName().compare("S9")==0){
         // On enlève la parenthèse fermante
         deleteTop(1);
         // On récupère la valeur

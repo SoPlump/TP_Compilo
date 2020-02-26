@@ -6,7 +6,7 @@ CPPFLAGS=-g -Wall -ansi -std=c++11 -pedantic -o0 #-D MAP
 EDLFLAGS=
 RMFLAGS=-f
 EXE=main
-INT=lexer.h symbole.h etat.h automate.h etats.h
+INT=lexer.h symbole.h state.h automate.h states.h
 REAL=$(INT:.h=.cpp)
 OBJ=$(REAL:.cpp=.o) $(EXE).o
 INCPATH=

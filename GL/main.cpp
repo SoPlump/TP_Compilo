@@ -1,6 +1,6 @@
 #include <iostream>
 #include "lexer.h"
-#include "etats.h"
+#include "states.h"
 #include "automate.h"
 
 
@@ -17,14 +17,14 @@ int main(void) {
 
      Lexer l(chaine);
 
-     Etat * e0 = new E0();
-     Automate a = Automate(e0,&l);
+     State * s0 = new S0();
+     Automate a = Automate(s0,&l);
 
 
     if(a.start()){
       cout << "Arbre fini !" <<  endl;
       cout << "Resultat: " << a.getResult() << endl;
-    
+
      cout << "Voulez vous afficher l'arbre (o/n) ?" << endl;
 
      cin >> chaine;
